@@ -1,5 +1,6 @@
 # stream camera feeds
 # import cv2 as cv
+from streamlit_webrtc import webrtc_streamer
 import streamlit as st
 import numpy as np
 import pandas as pd
@@ -17,11 +18,15 @@ def map():
     return st.map(map_data, size=5)
 
 
+def camera_feeds():
+    st.subheader("Camera feed")
+    webrtc_streamer(key="streamer", sendback_audio=False)
+
+
 left_col,right_col = st.columns(2)
 with left_col:
     st.header("Sensor and Actuator feeds")
-    VIDEO_URL = "https://youtu.be/wLj7A4A3OqQ?si=jns5Pefx_XHb2KSM"
-    st.camera_input("Take a photo from Camera")
+    camera_feeds()
     stats_view= st.container()
     stats_view.subheader("Components Stats")
     col1, col2, col3 = stats_view.columns(3)
@@ -39,26 +44,6 @@ with right_col:
 
 
 st.button("Deploy Parachute", type="primary")
-
-def camera_feeds():
-    vid = cv.VideoCapture(0) 
-    streamlit
-    
-    while(True): 
-
-        ret, frame = vid.read() 
-
-        cv.imshow('frame', frame) 
-        
-        # the 'q' button is set as the 
-        # quitting button you may use any 
-        # desired button of your choice 
-        if cv.waitKey(1) & 0xFF == ord('q'): 
-            break
-    
-    vid.release() 
-    cv.destroyAllWindows() 
-
 
 # Get sensors stats
 
